@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vedika AI Suite - Legal Policies</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* --- Premium Apple Light Glassmorphism --- */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --theme-color: #007AFF;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --bg-body: #E5E5EA;
+            --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0; 
+            background-color: var(--bg-body);
+            background-image: radial-gradient(circle at 50% -20%, #ffffff 0%, transparent 80%);
+            color: var(--text-main); 
+            font-family: var(--font-stack);
+            display: flex; 
+            justify-content: center;
+            padding: 2vh 20px;
+            box-sizing: border-box;
+            min-height: 100vh;
+        }
+
+        .document-container {
+            width: 100%; 
+            max-width: 1000px; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px); 
+            border: 1px solid var(--glass-border);
+            border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 96vh;
+        }
+
+        .header {
+            padding: 20px 32px; 
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .brand-section { display: flex; align-items: center; gap: 15px; }
+        .brand-section img { height: 45px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #fff; padding: 2px; }
+        .header-title h1 { margin: 0; font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+        .header-title p { margin: 2px 0 0 0; font-size: 0.85rem; color: var(--theme-color); font-weight: 600; }
+
+        .actions-section { display: flex; gap: 10px; }
+        .action-btn {
+            background: #ffffff; border: 1px solid var(--glass-border); color: var(--text-main);
+            padding: 10px 16px; border-radius: 12px; font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .btn-primary { background: var(--theme-color); color: #ffffff; border: none; }
+        .btn-primary:hover { box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
+
+        /* Floating Corner AI Box */
+        .ai-floating-box {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 380px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(40px) scale(0.95); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+
+        .ai-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px; font-weight: 800; color: var(--theme-color);
+            border-bottom: 1px solid var(--glass-border); font-size: 1.05rem;
+            background: #ffffff;
+        }
+        
+        .close-btn {
+            background: rgba(0,0,0,0.05); border: none; border-radius: 50%;
+            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-muted); transition: 0.2s;
+        }
+        .close-btn:hover { background: #FF3B30; color: #fff; }
+
+        .ai-body {
+            padding: 16px 18px;
+            max-height: 45vh; /* Makes long answers scrollable */
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        .ai-body::-webkit-scrollbar { width: 6px; }
+        .ai-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+
+        /* Static Unclickable Thinking Timer Box */
+        .think-timer {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(0, 122, 255, 0.08); border: 1px solid rgba(0, 122, 255, 0.15);
+            padding: 12px 16px; border-radius: 12px; color: var(--theme-color);
+            font-size: 0.9rem; font-weight: 700; margin-bottom: 12px;
+        }
+        .think-timer i { font-size: 1.2rem; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        .timer-seconds { margin-left: auto; font-variant-numeric: tabular-nums; background: #fff; padding: 2px 8px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+
+        .answer-content { font-size: 0.95rem; line-height: 1.6; color: var(--text-main); }
+        .answer-content p { margin-top: 0; margin-bottom: 10px;}
+
+        /* Document Content Area */
+        .content { flex: 1; padding: 0 32px 32px 32px; overflow-y: auto; scroll-behavior: smooth; }
+        .content::-webkit-scrollbar { width: 6px; }
+        .content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; }
+
+        .section-title { font-size: 1.4rem; color: var(--text-main); border-bottom: 2px solid rgba(0, 0, 0, 0.1); padding-bottom: 8px; margin-top: 30px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .rule-list { list-style: none; padding: 0; margin: 0; }
+        .rule-list li { background: rgba(255, 255, 255, 0.5); border: 1px solid var(--glass-border); padding: 14px 18px; margin-bottom: 12px; border-radius: 12px; font-size: 0.95rem; line-height: 1.5; display: flex; gap: 12px; transition: all 0.2s ease; }
+        .rule-list li:hover { background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-color: rgba(0, 122, 255, 0.3); }
+        .rule-number { font-weight: 800; color: var(--theme-color); min-width: 35px; }
+
+        .footer { padding: 16px; text-align: center; background: rgba(0,0,0,0.02); border-top: 1px solid var(--glass-border); font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; gap: 15px; padding: 15px 20px; }
+            .actions-section { width: 100%; justify-content: space-between; }
+            .content { padding: 0 20px 20px 20px; }
+            .ai-floating-box { width: 90%; bottom: 20px; right: 5%; left: 5%; }
+        }
+
+        @media print {
+            body { background: #fff; padding: 0; }
+            .document-container { box-shadow: none; border: none; height: auto; display: block; }
+            .actions-section, .ai-floating-box { display: none !important; }
+            .content { overflow: visible; padding: 0; }
+            .rule-list li { page-break-inside: avoid; border: none; border-bottom: 1px solid #eee; background: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="document-container">
+        <div class="header">
+            <div class="brand-section">
+                <img src="https://i.ibb.co/tPCDFwYD/Blue-and-Black-Minimalist-Brand-Logo-20260426-113813-0000.png" alt="Vedika AI">
+                <div class="header-title">
+                    <h1>Legal Policies</h1>
+                    <p>Vedika AI Suite - Terms & Privacy</p>
+                </div>
+            </div>
+            <div class="actions-section">
+                <button class="action-btn" onclick="window.print()">
+                    <i class="ph-bold ph-file-pdf"></i> Download PDF
+                </button>
+                <button class="action-btn btn-primary" id="summarizeBtn" onclick="summarizePage()">
+                    <i class="ph-bold ph-magic-wand"></i> Summarize this Page
+                </button>
+            </div>
+        </div>
+        
+        <div class="content" id="documentContent">
+            <h2 class="section-title"><i class="ph-bold ph-scales"></i> Part 1: Terms & Conditions (Rules 1-100)</h2>
+            <ul class="rule-list" id="tnc-list"></ul>
+
+            <h2 class="section-title"><i class="ph-bold ph-lock-key"></i> Part 2: Privacy Policy (Rules 101-200)</h2>
+            <ul class="rule-list" id="privacy-list"></ul>
+        </div>
+
+        <div class="footer">
+            &copy; 2026 Vedika AI Suite. All Rights Reserved. Compliant with the Laws of India.
+        </div>
+    </div>
+
+    <!-- Floating AI Summary Box in Corner -->
+    <div class="ai-floating-box" id="aiSummaryBox">
+        <div class="ai-header">
+            <span><i class="ph-fill ph-sparkle"></i> Vedika 3.5 Flash</span>
+            <button class="close-btn" onclick="closeAIBox()"><i class="ph-bold ph-x"></i></button>
+        </div>
+        <div class="ai-body" id="aiContentContainer">
+            <!-- Content streams here -->
+        </div>
+    </div>
+
+    <script>
+        // Generating 200 distinct rules in English
+        const rules = [];
+        const tncBase = [
+            "By accessing Vedika AI Suite, you agree to be bound by these Terms and Conditions.",
+            "If you do not agree to all the terms, you must immediately disconnect and cease usage.",
+            "Users must be at least 18 years of age to register for a premium account.",
+            "You are solely responsible for maintaining the confidentiality of your account credentials.",
+            "Any unauthorized access or use of your account must be reported to our support team immediately.",
+            "We reserve the right to modify these terms at any time without prior explicit notice.",
+            "Continued use of the platform after modifications constitutes your acceptance of the changes.",
+            "Vedika AI must not be used for any illegal, harmful, or fraudulent activities.",
+            "Generating hate speech, discriminatory content, or violent material is strictly prohibited."
+        ];
+        for(let i=0; i<100; i++) {
+            if(i < tncBase.length) rules.push(tncBase[i]);
+            else rules.push(`Standard Platform Clause ${i+1}: The user agrees to comply with operational policy directive section ${i+1} concerning fair usage and platform integrity.`);
+        }
+
+        const privacyBase = [
+            "We respect your privacy and are committed to protecting your personal data.",
+            "This policy outlines how we collect, process, and secure your information.",
+            "Upon registration, we collect basic details such as your name and email address.",
+            "Payment data is securely handled by our PCI-DSS compliant payment processors.",
+            "We do not store your complete credit card information on our local servers."
+        ];
+        for(let i=0; i<100; i++) {
+            if(i < privacyBase.length) rules.push(privacyBase[i]);
+            else rules.push(`Data Protection Protocol ${i+101}: Under section ${i+101}, data handling aligns with standard security compliance ensuring user confidentiality.`);
+        }
+
+        function renderRules() {
+            const tncList = document.getElementById('tnc-list');
+            const privacyList = document.getElementById('privacy-list');
+            rules.forEach((rule, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span class="rule-number">${index + 1}.</span><span class="rule-text">${rule}</span>`;
+                if (index < 100) tncList.appendChild(li); else privacyList.appendChild(li);
+            });
+        }
+        window.onload = renderRules;
+
+        // --- VEDIKA AI STREAMING & TIMER LOGIC ---
+        const API_URL = "https://mikeee-qwen-7b-chat.hf.space/v1/chat/completions";
+        const baseSystemRule = `You must structure your response strictly in two parts:
+PART 1: Write your detailed internal reasoning first. NEVER quote, mention, or type the final divider inside this reasoning block.
+PART 2: When your reasoning is 100% complete, you MUST output the exact divider "---FINAL_OUTPUT---" on a new line, followed immediately by your final answer for the user.
+Always address the user respectfully as 'Aadarniya Divy Ji'. Provide a concise professional summary.`;
+
+        let abortController = null;
+        let thinkTimerInterval = null;
+        let thinkSeconds = 0;
+        let isThinkingFinished = false;
+
+        function closeAIBox() {
+            document.getElementById('aiSummaryBox').style.display = 'none';
+            if(abortController) abortController.abort();
+            stopThinkTimer();
+            document.getElementById('summarizeBtn').disabled = false;
+            document.getElementById('summarizeBtn').innerHTML = '<i class="ph-bold ph-magic-wand"></i> Summarize this Page';
+        }
+
+        function stopThinkTimer() {
+            if(thinkTimerInterval) { clearInterval(thinkTimerInterval); thinkTimerInterval = null; }
+        }
+
+        async function summarizePage() {
+            const btn = document.getElementById('summarizeBtn');
+            const summaryBox = document.getElementById('aiSummaryBox');
+            const container = document.getElementById('aiContentContainer');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> Summarizing...';
+            summaryBox.style.display = 'flex';
+            
+            thinkSeconds = 0;
+            isThinkingFinished = false;
+            stopThinkTimer();
+            
+            // Start the visual timer
+            thinkTimerInterval = setInterval(() => {
+                thinkSeconds++;
+                const timerElement = document.getElementById('liveTimerSec');
+                if(timerElement) timerElement.innerText = thinkSeconds + 's';
+            }, 1000);
+
+            // Initial UI State (Timer Box Only)
+            container.innerHTML = `
+                <div class="think-timer" id="thinkTimerBox">
+                    <i class="ph-bold ph-brain"></i> <span>Vedika is thinking...</span>
+                    <span class="timer-seconds" id="liveTimerSec">0s</span>
+                </div>
+                <div class="answer-content" id="finalAnswerBox"></div>
+            `;
+
+            if(abortController) abortController.abort();
+            abortController = new AbortController();
+
+            const chatHistory = [
+                { role: "system", content: baseSystemRule },
+                { role: "user", content: "Please read the 200 rules of the Terms and Conditions and Privacy Policy on this page and provide a concise, professional summary." }
+            ];
+
+            let fullContent = "";
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sk-vedika' },
+                    body: JSON.stringify({ messages: chatHistory, temperature: 0.7, stream: true }),
+                    signal: abortController.signal
+                });
+
+                if (!response.ok) throw new Error(`HTTP Error Status ${response.status}`);
+
+                const reader = response.body.getReader(); 
+                const decoder = new TextDecoder("utf-8"); 
+                let buffer = "";
+
+                while (true) {
+                    const { done, value } = await reader.read(); 
+                    if (done) break;
+                    
+                    buffer += decoder.decode(value, { stream: true });
+                    let lines = buffer.split('\n'); 
+                    buffer = lines.pop(); 
+
+                    for (let line of lines) {
+                        line = line.trim();
+                        if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+                            try {
+                                const data = JSON.parse(line.substring(6));
+                                const delta = data.choices[0].delta;
+                                fullContent += (delta.reasoning_content || "") + (delta.content || "");
+                                processLiveStream(fullContent, container);
+                            } catch (e) {}
+                        }
+                    }
+                }
+                stopThinkTimer();
+            } catch (err) {
+                stopThinkTimer();
+                if (err.name !== 'AbortError') {
+                    document.getElementById('finalAnswerBox').innerHTML += `<div style="color:red; margin-top:10px;">Error: ${err.message}</div>`;
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="ph-bold ph-magic-wand"></i> Summarize this Page';
+            }
+        }
+
+        function processLiveStream(rawText, container) {
+            const divider = "---FINAL_OUTPUT---";
+            const splitIndex = rawText.lastIndexOf(divider);
+            const answerBox = document.getElementById('finalAnswerBox');
+            const timerBox = document.getElementById('thinkTimerBox');
+
+            if (splitIndex !== -1) {
+                // We reached the final output
+                if (!isThinkingFinished) {
+                    isThinkingFinished = true;
+                    stopThinkTimer();
+                    // Keep the timer visible but mark it as completed
+                    if(timerBox) {
+                        timerBox.style.background = 'rgba(52, 199, 89, 0.1)';
+                        timerBox.style.borderColor = 'rgba(52, 199, 89, 0.2)';
+                        timerBox.style.color = '#28a745';
+                        timerBox.innerHTML = `<i class="ph-bold ph-check-circle"></i> <span>Thought process complete</span> <span class="timer-seconds">${thinkSeconds}s</span>`;
+                    }
+                }
+                
+                let answerContent = rawText.substring(splitIndex + divider.length).trim();
+                if (typeof marked !== 'undefined') {
+                    answerBox.innerHTML = marked.parse(answerContent);
+                } else {
+                    answerBox.innerText = answerContent;
+                }
+                
+                // Auto scroll to bottom of the AI box as it types
+                const aiBody = document.getElementById('aiContentContainer');
+                aiBody.scrollTop = aiBody.scrollHeight;
+            }
+            // If splitIndex is -1, it means the model is still generating internal reasoning.
+            // Since you requested to hide it entirely, we don't render the text. 
+            // The timer running visually indicates it's working.
+        }
+    </script>
+</body>
+</html>
